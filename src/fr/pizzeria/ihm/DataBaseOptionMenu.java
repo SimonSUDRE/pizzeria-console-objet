@@ -15,6 +15,7 @@ public class DataBaseOptionMenu extends OptionMenu {
 	
 	/**
 	 * Constructeur
+	 * @param pizzaDaoImpl IPizzaDao
 	 */
 	public DataBaseOptionMenu(IPizzaDao pizzaDaoImpl) {
 		super("Utiliser la base de données", pizzaDaoImpl);
