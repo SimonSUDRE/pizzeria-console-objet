@@ -16,20 +16,20 @@ import fr.pizzeria.model.Pizza;
 public class PizzaDaoImpl implements IPizzaDao {
 
 	/** pizza : List<Pizza> */
-	private static List<Pizza> pizza = new ArrayList<>();
+	private static List<Pizza> pizzas = new ArrayList<>();
 
 	/**
 	 * Constructeur : initialise le tableau des pizza
 	 */
 	public PizzaDaoImpl() {
-		pizza.add(new Pizza("PEP", "Pépéroni", 12.50, CategoriePizza.valueOf("VIANDE")));
-		pizza.add(new Pizza("MAR", "Margherita", 14.00, CategoriePizza.valueOf("POISSON")));
-		pizza.add(new Pizza("REIN", "La Reine", 11.50, CategoriePizza.valueOf("POISSON")));
-		pizza.add(new Pizza("FRO", "La 4 fromages", 12.00, CategoriePizza.valueOf("SANS_VIANDE")));
-		pizza.add(new Pizza("CAN", "La cannibale", 12.50, CategoriePizza.valueOf("VIANDE")));
-		pizza.add(new Pizza("SAV", "La savoyarde", 13.00, CategoriePizza.valueOf("VIANDE")));
-		pizza.add(new Pizza("ORI", "L'orientale", 13.50, CategoriePizza.valueOf("POISSON")));
-		pizza.add(new Pizza("IND", "L'indienne", 14.00, CategoriePizza.valueOf("VIANDE")));
+		pizzas.add(new Pizza("PEP", "Pépéroni", 12.50, CategoriePizza.valueOf("VIANDE")));
+		pizzas.add(new Pizza("MAR", "Margherita", 14.00, CategoriePizza.valueOf("POISSON")));
+		pizzas.add(new Pizza("REIN", "La Reine", 11.50, CategoriePizza.valueOf("POISSON")));
+		pizzas.add(new Pizza("FRO", "La 4 fromages", 12.00, CategoriePizza.valueOf("SANS_VIANDE")));
+		pizzas.add(new Pizza("CAN", "La cannibale", 12.50, CategoriePizza.valueOf("VIANDE")));
+		pizzas.add(new Pizza("SAV", "La savoyarde", 13.00, CategoriePizza.valueOf("VIANDE")));
+		pizzas.add(new Pizza("ORI", "L'orientale", 13.50, CategoriePizza.valueOf("POISSON")));
+		pizzas.add(new Pizza("IND", "L'indienne", 14.00, CategoriePizza.valueOf("VIANDE")));
 	}
 
 	/* (non-Javadoc)
@@ -37,7 +37,7 @@ public class PizzaDaoImpl implements IPizzaDao {
 	 */
 	@Override
 	public List<Pizza> findAllPizzas() {
-		return pizza;
+		return pizzas;
 	}
 
 	/* (non-Javadoc)

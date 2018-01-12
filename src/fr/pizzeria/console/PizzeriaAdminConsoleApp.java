@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.dao.PizzaDaoImpl;
 import fr.pizzeria.ihm.AjouterPizzaOptionMenu;
+import fr.pizzeria.ihm.DataBaseOptionMenu;
 import fr.pizzeria.ihm.ListerPizzasOptionMenu;
 import fr.pizzeria.ihm.Menu;
 import fr.pizzeria.ihm.ModifierPizzaOptionMenu;
@@ -25,25 +26,29 @@ public class PizzeriaAdminConsoleApp {
 	/** LOG : Logger */
 	public static final Logger CONSOLE = LoggerFactory.getLogger(PizzeriaAdminConsoleApp.class);
 		
+	/** menu : Menu */
+	public static Menu menu;
+	
 	/**
 	 * point d'entréer
 	 * @param args non utilisés dans cette application
 	 */
 	public static void main(String[] args) {
 		scanner = new Scanner(System.in);
-		IPizzaDao pizzaDaoImpl = new PizzaDaoImpl();
+		IPizzaDao pizzaDaoImple = new PizzaDaoImpl();
 		int viScanner;
-		Menu m = new Menu();
-		m.setActions(new ListerPizzasOptionMenu(pizzaDaoImpl));
-		m.setActions(new AjouterPizzaOptionMenu(pizzaDaoImpl));
-		m.setActions(new ModifierPizzaOptionMenu(pizzaDaoImpl));
-		m.setActions(new SupprimerPizzaOptionMenu(pizzaDaoImpl));
-		m.setActions(new OutAppOptionMenu());
+		menu = new Menu();
+		menu.setActions(new DataBaseOptionMenu(pizzaDaoImple));
+		menu.setActions(new ListerPizzasOptionMenu(pizzaDaoImple));
+		menu.setActions(new AjouterPizzaOptionMenu(pizzaDaoImple));
+		menu.setActions(new ModifierPizzaOptionMenu(pizzaDaoImple));
+		menu.setActions(new SupprimerPizzaOptionMenu(pizzaDaoImple));
+		menu.setActions(new OutAppOptionMenu());
 		do {
-			m.afficher();
+			menu.afficher();
 			viScanner = scanner.nextInt();
-			if(!m.getActions().get(viScanner).equals(null)) {
-				m.getActions().get(viScanner).execute(scanner);
+			if(!menu.getActions().get(viScanner).equals(null)) {
+				menu.getActions().get(viScanner).execute(scanner);
 				viScanner = 0;
 			}
 			else {

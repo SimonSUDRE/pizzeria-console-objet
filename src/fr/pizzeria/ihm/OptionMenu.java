@@ -38,5 +38,29 @@ public abstract class OptionMenu {
 	 * @return retourne si l'execution a reussi
 	 */
 	public abstract boolean execute(Scanner sc);
+
+	/**
+	 * met a jour le dao pizza de l'option
+	 * @param pizzaDaoImpl le nouveau dao pizza
+	 */
+	public void setDaoPizza(IPizzaDao pizzaDaoImpl) {
+		this.pizzaDaoImpl = pizzaDaoImpl;
+	}
 	
+	/**
+	 * verifie si un String est un entier
+	 * @param s le String à verifier
+	 * @return true c'est un entier false c'en n'est pas un
+	 */
+	public static boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    } catch(NullPointerException e) {
+	        return false;
+	    }
+	    // only got here if we didn't return false
+	    return true;
+	}	
 }

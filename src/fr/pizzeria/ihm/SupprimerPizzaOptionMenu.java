@@ -20,23 +20,6 @@ public class SupprimerPizzaOptionMenu extends OptionMenu {
 	public SupprimerPizzaOptionMenu(IPizzaDao pizzaDaoImpl) {
 		super("Supprimer une pizza", pizzaDaoImpl);
 	}
-
-	/**
-	 * verifie si un String est un entier
-	 * @param s le String à verifier
-	 * @return true c'est un entier false c'en n'est pas un
-	 */
-	public static boolean isInteger(String s) {
-	    try { 
-	        Integer.parseInt(s); 
-	    } catch(NumberFormatException e) { 
-	        return false; 
-	    } catch(NullPointerException e) {
-	        return false;
-	    }
-	    // only got here if we didn't return false
-	    return true;
-	}	
 	
 	/* (non-Javadoc)
 	 * @see fr.pizzeria.ihm.OptionMenu#execute(java.util.Scanner, fr.pizzeria.dao.IPizzaDao)

@@ -2,6 +2,8 @@ package fr.pizzeria.ihm;
 
 import static fr.pizzeria.console.PizzeriaAdminConsoleApp.CONSOLE;
 import java.util.Scanner;
+import fr.pizzeria.dao.PizzaDaoJdbc;
+import static fr.pizzeria.dao.PizzaDaoJdbc.closeConnection;
 
 /**
  * @author Simon SUDRE
@@ -22,6 +24,9 @@ public class OutAppOptionMenu extends OptionMenu {
 	@Override
 	public boolean execute(Scanner sc) {
 		CONSOLE.info("Aurevoir \n");
+		if(this.pizzaDaoImpl instanceof PizzaDaoJdbc) {
+			closeConnection();
+		}
 		System.exit(0);
 		return false;
 	}

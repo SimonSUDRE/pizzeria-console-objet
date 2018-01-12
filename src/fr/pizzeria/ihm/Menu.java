@@ -4,6 +4,8 @@ import static fr.pizzeria.console.PizzeriaAdminConsoleApp.CONSOLE;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import fr.pizzeria.dao.IPizzaDao;
+
 /**
  * @author Simon SUDRE
  * class Menu
@@ -59,6 +61,16 @@ public class Menu {
 	 */
 	public void setActions(OptionMenu action) {
 		this.setIdActions(action);
+	}
+	
+	/**
+	 * replace the IPizzaDao
+	 * @param pizzaDaoImpl new IPizzaDao
+	 */
+	public void updateActionsDaoPizza(IPizzaDao pizzaDaoImpl) {
+		for(OptionMenu om : this.getActions().values()) {
+			om.setDaoPizza(pizzaDaoImpl);
+		}
 	}
 	
 	/**

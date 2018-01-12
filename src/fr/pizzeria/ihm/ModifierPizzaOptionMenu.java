@@ -21,23 +21,6 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 	public ModifierPizzaOptionMenu(IPizzaDao pizzaDaoImpl) {
 		super("Mettre à jour une pizza", pizzaDaoImpl);
 	}
-	
-	/**
-	 * verifie si un String est un entier
-	 * @param s le String à verifier
-	 * @return true c'est un entier false c'en n'est pas un
-	 */
-	public static boolean isInteger(String s) {
-	    try { 
-	        Integer.parseInt(s); 
-	    } catch(NumberFormatException e) { 
-	        return false; 
-	    } catch(NullPointerException e) {
-	        return false;
-	    }
-	    // only got here if we didn't return false
-	    return true;
-	}
 
 	/* (non-Javadoc)
 	 * @see fr.pizzeria.ihm.OptionMenu#execute(java.util.Scanner, fr.pizzeria.dao.IPizzaDao)
@@ -49,12 +32,12 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 		boolean b = false;
 		double valueDouble = 0.0;
 		do {
-			CONSOLE.info(" Mise à jour d’une pizza \n");
+			CONSOLE.info(" Mise a jour d'une pizza \n");
 			List<Pizza> p = this.pizzaDaoImpl.findAllPizzas();
 			for(int i = 0; i < p.size(); i++) {
 				CONSOLE.info(p.get(i).toString());
 			}
-			CONSOLE.info("Veuillez choisir la pizza à modifier. \n (99 pour abandonner)\n");
+			CONSOLE.info("Veuillez choisir la pizza a modifier. \n (99 pour abandonner)\n");
 			vsScanner = sc.next();
 			if(isInteger(vsScanner)) {
 				out = Integer.parseInt(vsScanner);
@@ -98,5 +81,4 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 		} while(out != 99);
 		return b;
 	}
-
 }
