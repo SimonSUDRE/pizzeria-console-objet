@@ -1,5 +1,5 @@
-create database if not exists Pizzeria;
-use Pizzeria;
+#create database if not exists Pizzeria;
+use bntwwkq07;
 
 drop table if exists Pizza;
 

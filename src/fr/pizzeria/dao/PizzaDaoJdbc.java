@@ -5,9 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import fr.pizzeria.exception.DeletePizzaException;
+import fr.pizzeria.exception.SavePizzaException;
 import fr.pizzeria.exception.StockageException;
 import fr.pizzeria.exception.UpdatePizzaException;
 import fr.pizzeria.model.CategoriePizza;
@@ -70,9 +74,7 @@ public class PizzaDaoJdbc implements IPizzaDao {
 				CONSOLE.error("La class Driver n'existe pas ! ", e.getMessage());
 			} catch (SQLException e) {
 				CONSOLE.error("ERREUR SQL de connection ! ", e.getMessage());
-				if(connection != null) {
-					closeConnection();
-				}
+				closeConnection();
 			}
 		}
 	}
@@ -103,10 +105,12 @@ public class PizzaDaoJdbc implements IPizzaDao {
 	 * met fin a la connection a la base de données
 	 */
 	public static void closeConnection() {
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			CONSOLE.error("ERREUR SQL de fermeture de connection ! ", e.getMessage());
+		if(connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				CONSOLE.error("ERREUR SQL de fermeture de connection ! ", e.getMessage());
+			}
 		}
 	}
 	
@@ -165,29 +169,29 @@ public class PizzaDaoJdbc implements IPizzaDao {
 			preparedInsertPizza =
 					connection.prepareStatement(
 							  "INSERT "
-							+ "INTO Pizza "
-							+ "SELECT ?, ?, ?, ? "
-							+ "WHERE NOT EXISTS ("
-								+ "SELECT * "
-								+ "FROM Pizza "
-								+ "WHERE Pizza_id=?);");
+							+ "INTO Pizza(Pizza_id, Pizza_name, Pizza_price, Pizza_category) "
+							+ "VALUES (?, ?, ?, ?);");
 			preparedInsertPizza.setString(1, pizza.getCode());
 			preparedInsertPizza.setString(2, pizza.getNom());
 			preparedInsertPizza.setDouble(3, pizza.getPrix());
 			preparedInsertPizza.setString(4, pizza.getCategorie().name());
-			preparedInsertPizza.setString(5, pizza.getCode());
 			preparedInsertPizza.executeUpdate();
 			preparedInsertPizza.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			CONSOLE.error("ERREUR SQL Cette clé pizza existe déjà !", e.getMessage());
+			throw new SavePizzaException("ERREUR SQL Cette clé pizza existe déjà !");
 		} catch (SQLException e) {
 			if(connection == null) {
 				CONSOLE.error("ERREUR SQL Connection non ouverte", e.getMessage());
 			}
 			CONSOLE.error("ERREUR SQL de requete Insert ! ", e.getMessage());
 		} finally{
-			try {
-				preparedInsertPizza.close();
-			} catch (SQLException e) {
-				CONSOLE.error("ERREUR SQL de fermeture de requete Insert ! ", e.getMessage());
+			if(preparedInsertPizza != null) {
+				try {
+					preparedInsertPizza.close();
+				} catch (SQLException e) {
+					CONSOLE.error("ERREUR SQL de fermeture de requete Insert ! ", e.getMessage());
+				}
 			}
 		}
 		this.getPizzas().add(pizza);
@@ -198,12 +202,7 @@ public class PizzaDaoJdbc implements IPizzaDao {
 	 */
 	@Override
 	public void updatePizza(String codePizza, Pizza pizza) throws StockageException {
-		for(int i = 0; i < this.getPizzas().size(); i++) {
-			if(!this.getPizzas().get(i).getCode().equals(codePizza)) {
-				throw new UpdatePizzaException("\u001B[31m Le code entreé n'existe pas ! \u001B[0m");
-			}
-		}
-		
+		int result;		
 		PreparedStatement preparedUpdatePizza = null;
 		try {
 			preparedUpdatePizza = 
@@ -212,25 +211,33 @@ public class PizzaDaoJdbc implements IPizzaDao {
 							+ "SET Pizza_id=?, "
 								+ "Pizza_name=?, "
 								+ "Pizza_price=?, "
-								+ "Pizza_category=?"
+								+ "Pizza_category=? "
 							+"WHERE Pizza_id=?;");
 			preparedUpdatePizza.setString(1, pizza.getCode());
 			preparedUpdatePizza.setString(2, pizza.getNom());
 			preparedUpdatePizza.setDouble(3, pizza.getPrix());
 			preparedUpdatePizza.setString(4, pizza.getCategorie().name());
-			preparedUpdatePizza.setString(5, pizza.getCode());
-			preparedUpdatePizza.executeUpdate();
+			preparedUpdatePizza.setString(5, codePizza);
+			result = preparedUpdatePizza.executeUpdate();
+			if(result == 0) {
+				throw new UpdatePizzaException("ERREUR SQL Cette clé pizza n'existe pas !");
+			}
 			preparedUpdatePizza.close();
+		} catch (SQLIntegrityConstraintViolationException e) { 
+			CONSOLE.error("ERREUR SQL Cette clé pizza existe déjà !", e.getMessage());
+			throw new SavePizzaException("ERREUR SQL Cette clé pizza existe déjà !");
 		} catch (SQLException e) {
 			if(connection == null) {
 				CONSOLE.error("ERREUR SQL Connection non ouverte", e.getMessage());
 			}
 			CONSOLE.error("ERREUR SQL de requete Update ! ", e.getMessage());
 		} finally{
-			try {
-				preparedUpdatePizza.close();
-			} catch (SQLException e) {
-				CONSOLE.error("ERREUR SQL de fermeture de requete Update ! ", e.getMessage());
+			if(preparedUpdatePizza != null) {
+				try {
+					preparedUpdatePizza.close();
+				} catch (SQLException e) {
+					CONSOLE.error("ERREUR SQL de fermeture de requete Update ! ", e.getMessage());
+				}
 			}
 		}
 		for(int i = 0; i < this.getPizzas().size(); i++) {
@@ -249,6 +256,7 @@ public class PizzaDaoJdbc implements IPizzaDao {
 	 */
 	@Override
 	public void deletePizza(String codePizza) throws StockageException {
+		int result;
 		PreparedStatement preparedDeletePizza = null;
 		try {
 			preparedDeletePizza = 
@@ -257,7 +265,10 @@ public class PizzaDaoJdbc implements IPizzaDao {
 							+ "FROM Pizza "
 							+ "WHERE Pizza_id=?;");
 			preparedDeletePizza.setString(1, codePizza);
-			preparedDeletePizza.executeUpdate();
+			result = preparedDeletePizza.executeUpdate();
+			if(result == 0) {
+				throw new DeletePizzaException("ERREUR SQL Cette clé pizza n'existe pas !");
+			}
 			preparedDeletePizza.close();
 		} catch (SQLException e) {
 			if(connection == null) {
@@ -265,10 +276,12 @@ public class PizzaDaoJdbc implements IPizzaDao {
 			}
 			CONSOLE.error("ERREUR SQL de requete Delete : erreur d'access ! ", e.getMessage());
 		} finally{
-			try {
-				preparedDeletePizza.close();
-			} catch (SQLException e) {
-				CONSOLE.error("ERREUR SQL de fermeture de requete Delete ! ", e.getMessage());
+			if(preparedDeletePizza != null) {
+				try {
+					preparedDeletePizza.close();
+				} catch (SQLException e) {
+					CONSOLE.error("ERREUR SQL de fermeture de requete Delete ! ", e.getMessage());
+				}
 			}
 		}
 		for(int i = 0; i < this.getPizzas().size(); i++) {
