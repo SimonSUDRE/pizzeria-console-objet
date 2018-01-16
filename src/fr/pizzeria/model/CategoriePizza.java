@@ -1,9 +1,13 @@
 package fr.pizzeria.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 /**
  * @author Simon SUDRE
  * enumeration Categorie pizza
  */
+@Entity
 public enum CategoriePizza {
 	
 	VIANDE ("Viande"),
@@ -11,6 +15,7 @@ public enum CategoriePizza {
 	SANS_VIANDE ("Sans Viande");
 		   
 	/** String : value */
+	@Column(name="value", length=25, nullable= false)
 	private final String value;
 		  
 	/**

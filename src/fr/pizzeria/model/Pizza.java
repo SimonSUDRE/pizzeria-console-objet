@@ -1,32 +1,48 @@
 package fr.pizzeria.model;
 
 import static fr.pizzeria.utils.StringUtils.getStringValue;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import fr.pizzeria.utils.ToString;
 
 /**
  * @author Simon SUDRE
  * class Pizza
  */
+@Entity
 public class Pizza {
 	
 	/** id : Integer */
+	@Id
 	private static Integer id = -1;
 	
 	/** code : String */
+	@Column(name="Pizza_id", length=5, nullable=false)
 	@ToString(upperCase = true, separateur = "	->	")
 	private String code;
 	
 	/** nom : String */
+	@Column(name="Pizza_name", length=50, nullable=false)
 	@ToString()
 	private String nom;
 	
 	/** prix : Double */
+	@Column(name="Pizza_price", nullable=false)
 	@ToString(decimal = true, separateur = " :: ", after = " €)", before = "(")
 	private Double prix;
 	
 	/** categorie : CategoriePizza */
+	@OneToOne
 	@ToString(categorie = true)
 	private CategoriePizza categorie;
+	
+	
+	/**
+	 * Constructeur par default
+	 */
+	public Pizza() {}
 	
 	/**
 	 * le constructeur d'une pizza :  l'id est générer avec un compteur
@@ -42,13 +58,21 @@ public class Pizza {
 		this.prix = prix;
 		categorie = categori;
 	}
-	
+
 	/**
 	 * recuperation de l'identifiant de la pizza
 	 * @return Integer l'identifiant de la pizza
 	 */
 	public Integer getId() {
 		return id;
+	}
+	
+	/**
+	 * recuperation de l'identifiant de la pizza
+	 * @return Integer l'identifiant de la pizza
+	 */
+	public void setId(Integer iD) {
+		id = iD;
 	}
 	
 	/**
