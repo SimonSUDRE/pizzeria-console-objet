@@ -2,7 +2,7 @@ package fr.pizzeria.ihm;
 
 import java.util.Scanner;
 import static fr.pizzeria.console.PizzeriaAdminConsoleApp.CONSOLE;
-import static fr.pizzeria.console.PizzeriaAdminConsoleApp.menu;
+import static fr.pizzeria.console.PizzeriaAdminConsoleApp.getMenu;
 import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.dao.PizzaDaoImpl;
 import fr.pizzeria.dao.PizzaDaoJdbc;
@@ -37,7 +37,7 @@ public class DataBaseOptionMenu extends OptionMenu {
 				out = Integer.parseInt(vsScanner);
 				if(out == 1) {
 					if(this.pizzaDaoImpl instanceof PizzaDaoJdbc) {
-						menu.updateActionsDaoPizza(new PizzaDaoImpl());
+						getMenu().updateActionsDaoPizza(new PizzaDaoImpl());
 						break;
 					}
 					else {
@@ -47,7 +47,7 @@ public class DataBaseOptionMenu extends OptionMenu {
 				}
 				else if(out == 2) {
 					if(this.pizzaDaoImpl instanceof PizzaDaoImpl) {
-						menu.updateActionsDaoPizza(new PizzaDaoJdbc());
+						getMenu().updateActionsDaoPizza(new PizzaDaoJdbc());
 						break;
 					}
 					else {

@@ -27,7 +27,11 @@ public class PizzeriaAdminConsoleApp {
 	public static final Logger CONSOLE = LoggerFactory.getLogger(PizzeriaAdminConsoleApp.class);
 		
 	/** menu : Menu */
-	public static Menu menu;
+	private static Menu menu;
+	
+	public static Menu getMenu() {
+		return menu;
+	}
 	
 	/**
 	 * point d'entréer
