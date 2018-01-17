@@ -29,8 +29,36 @@ public class PizzeriaAdminConsoleApp {
 	/** menu : Menu */
 	private static Menu menu;
 	
+	/**
+	 * GET Menu 
+	 * @return Menu menu
+	 */
 	public static Menu getMenu() {
 		return menu;
+	}
+	
+	/**
+	 * SET Menu 
+	 * @param m Menu
+	 */
+	public static void setMenu(Menu m) {
+		menu = m;
+	}
+	
+	/**
+	 * GET Scanner
+	 * @return Scanner scanner
+	 */
+	public static Scanner getScanner() {
+		return scanner;
+	}
+	
+	/**
+	 * SET Scanner
+	 * @param sc Scanner
+	 */
+	public static void setScanner(Scanner sc) {
+		scanner = sc;
 	}
 	
 	/**
@@ -38,21 +66,21 @@ public class PizzeriaAdminConsoleApp {
 	 * @param args non utilisés dans cette application
 	 */
 	public static void main(String[] args) {
-		scanner = new Scanner(System.in);
+		setScanner(new Scanner(System.in));
 		IPizzaDao pizzaDaoImple = new PizzaDaoImpl();
 		int viScanner;
-		menu = new Menu();
-		menu.setActions(new DataBaseOptionMenu(pizzaDaoImple));
-		menu.setActions(new ListerPizzasOptionMenu(pizzaDaoImple));
-		menu.setActions(new AjouterPizzaOptionMenu(pizzaDaoImple));
-		menu.setActions(new ModifierPizzaOptionMenu(pizzaDaoImple));
-		menu.setActions(new SupprimerPizzaOptionMenu(pizzaDaoImple));
-		menu.setActions(new OutAppOptionMenu());
+		setMenu(new Menu());
+		getMenu().setActions(new DataBaseOptionMenu(pizzaDaoImple));
+		getMenu().setActions(new ListerPizzasOptionMenu(pizzaDaoImple));
+		getMenu().setActions(new AjouterPizzaOptionMenu(pizzaDaoImple));
+		getMenu().setActions(new ModifierPizzaOptionMenu(pizzaDaoImple));
+		getMenu().setActions(new SupprimerPizzaOptionMenu(pizzaDaoImple));
+		getMenu().setActions(new OutAppOptionMenu());
 		do {
-			menu.afficher();
-			viScanner = scanner.nextInt();
-			if(menu.getActions().get(viScanner) != null) {
-				menu.getActions().get(viScanner).execute(scanner);
+			getMenu().afficher();
+			viScanner = getScanner().nextInt();
+			if(getMenu().getActions().get(viScanner) != null) {
+				getMenu().getActions().get(viScanner).execute(getScanner());
 			}
 			else {
 				CONSOLE.info("ce n'est pas une option \n");

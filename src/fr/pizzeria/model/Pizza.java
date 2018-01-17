@@ -68,14 +68,6 @@ public class Pizza {
 	}
 	
 	/**
-	 * recuperation de l'identifiant de la pizza
-	 * @return Integer l'identifiant de la pizza
-	 */
-	public void setId(Integer iD) {
-		id = iD;
-	}
-	
-	/**
 	 * recuperation du code de la pizza
 	 * @return String le code de la pizza
 	 */
@@ -158,12 +150,25 @@ public class Pizza {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(obj == null) return false;
-		if (this.getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Pizza other = (Pizza) obj;
-		if (categorie != other.categorie) return false;
-		if (!code.equals(other.code)) return false;
-		if (!nom.equals(other.nom)) return false;
+		if (categorie != other.categorie)
+			return false;
+		if (code == null) {
+			if (other.code != null)
+				return false;
+		} else if (!code.equals(other.code))
+			return false;
+		if (nom == null) {
+			if (other.nom != null)
+				return false;
+		} else if (!nom.equals(other.nom))
+			return false;
 		return true;
 	}
 	
@@ -175,7 +180,7 @@ public class Pizza {
 	public String toString() {
 		return getStringValue(this);
 	}
-	
+
 	/**
 	 * generate a string of pizza
 	 * @return String the pizza
@@ -183,14 +188,4 @@ public class Pizza {
 	public String generateSting() {
 		return code + ", " + nom + ", " + prix + ", " + categorie.name();
 	}
-	
-	/*
-	 * @see java.lang.Object#toString()
-	 * code -&gt; nom(prix€), categorie(categorie)
-	 *
-	@Override
-	public String toString() {
-		DecimalFormat df = new DecimalFormat("#.00");
-		return code + " -> " + nom + "(" + df.format(prix) + "€), categorie(" + categorie.getValue() + ")";
-	}*/
 }

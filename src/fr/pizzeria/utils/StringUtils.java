@@ -9,6 +9,11 @@ import fr.pizzeria.model.CategoriePizza;
  * class String utils
  */
 public class StringUtils {
+	
+	/**
+	 * Constructeur par default
+	 */
+	private StringUtils() {}
 
 	/**
 	 * recupère un string avec les attribut de la class qui ont une annotation ToString
@@ -17,7 +22,8 @@ public class StringUtils {
 	 * @return un string avec les attribut de la class qui ont une annotation ToString
 	 */
 	public static String getStringValue(Object o) {
-		String chaine = "", val = "";
+		StringBuilder chaine = new StringBuilder();
+		String val = "";
 		DecimalFormat df = new DecimalFormat("#.00");
 		try {
 			Field[] fields = o.getClass().getDeclaredFields();
@@ -38,11 +44,10 @@ public class StringUtils {
 					else {
 						val = value.toString();
 					}
-					
-					chaine += annotation.before() + val + annotation.after() + annotation.separateur();
+					chaine.append(annotation.before()).append(val).append(annotation.after()).append(annotation.separateur());
 				}
 			}
-			return chaine;
+			return chaine.toString();
 		} catch(Exception e) {
 			return null;
 		}
