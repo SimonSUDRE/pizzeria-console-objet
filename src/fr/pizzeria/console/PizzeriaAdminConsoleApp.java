@@ -51,9 +51,8 @@ public class PizzeriaAdminConsoleApp {
 		do {
 			menu.afficher();
 			viScanner = scanner.nextInt();
-			if(!menu.getActions().get(viScanner).equals(null)) {
+			if(menu.getActions().get(viScanner) != null) {
 				menu.getActions().get(viScanner).execute(scanner);
-				viScanner = 0;
 			}
 			else {
 				CONSOLE.info("ce n'est pas une option \n");
