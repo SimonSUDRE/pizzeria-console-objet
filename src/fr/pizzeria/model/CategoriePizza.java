@@ -33,4 +33,12 @@ public enum CategoriePizza {
 	public String getValue() {
 		return this.value;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
+	@Override
+	public String toString() {
+		return this.name() + " -> " + this.getValue();
+	}
 }
