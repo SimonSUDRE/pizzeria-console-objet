@@ -32,7 +32,8 @@ public class SupprimerPizzaOptionMenu extends OptionMenu {
 			CONSOLE.info("Suppression d’une pizza \n");
 			List<Pizza> p = this.pizzaDaoImpl.findAllPizzas();
 			for(int i = 0; i < p.size(); i++) {
-				CONSOLE.info(p.get(i).toString());
+				String s = p.get(i).toString();
+				CONSOLE.info(s);
 			}
 			CONSOLE.info("Veuillez choisir la pizza à supprimer. \n (99 pour abandonner)\n");
 			vsScanner = sc.next();

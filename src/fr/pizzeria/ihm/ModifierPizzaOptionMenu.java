@@ -28,14 +28,19 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 	@Override
 	public boolean execute(Scanner sc) {
 		int out = 0;
-		String vsScanner, valeurString, valeurString1, vdScanner = null, valeurCategorie;
+		String vsScanner;
+		String valeurString;
+		String valeurString1;
+		String vdScanner = null;
+		String valeurCategorie;
 		boolean b = false;
 		double valueDouble = 0.0;
 		do {
 			CONSOLE.info(" Mise a jour d'une pizza \n");
 			List<Pizza> p = this.pizzaDaoImpl.findAllPizzas();
 			for(int i = 0; i < p.size(); i++) {
-				CONSOLE.info(p.get(i).toString());
+				String s = p.get(i).toString();
+				CONSOLE.info(s);
 			}
 			CONSOLE.info("Veuillez choisir la pizza a modifier. \n (99 pour abandonner)\n");
 			vsScanner = sc.next();
@@ -56,21 +61,26 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 					CONSOLE.error("erreur critique", "\u001B[31m ce n'est pas un prix ! \u001B[0m");
 				}
 				for(int i = 0; i < CategoriePizza.values().length; i++) {
-					CONSOLE.info(CategoriePizza.values()[i].name() + " -> " + CategoriePizza.values()[i].getValue());
+					String s = CategoriePizza.values()[i].toString();
+					CONSOLE.info(s);
 				}
 				do {
 					CONSOLE.info("Veuillez saisir la categorie : ");
 					valeurCategorie = sc.next();
 					for(int i = 0; i < CategoriePizza.values().length; i++) {
-						if(CategoriePizza.values()[i].name().equals(valeurCategorie.toUpperCase())) {
+						String s = valeurCategorie.toUpperCase();
+						if(CategoriePizza.values()[i].name().equals(s)) {
 							b = true;
 						}
 					}
-					if(b == false) {
+					if(!b) {
 						CONSOLE.info("\u001B[31m ce n'est pas une categorie ! \u001B[0m");
 						return b;
 					}
-				} while(b == false);
+					else {
+						break;
+					}
+				} while(true);
 				Pizza pizza = new Pizza(valeurString, valeurString1, valueDouble, CategoriePizza.valueOf(valeurCategorie.toUpperCase()));
 				try {
 					this.pizzaDaoImpl.updatePizza(vsScanner, pizza);

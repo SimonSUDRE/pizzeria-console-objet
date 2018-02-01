@@ -18,24 +18,24 @@ public class Menu {
 	/** actions : OptionMenu[] */
 	private Map<Integer,OptionMenu> actions;
 	
-	/** cmp : int static */
-	private static int cmp = 0;
+	/** cmp : Integer static */
+	private static Integer cmp = 0;
 	
 	/**
 	 * Constructeur 
 	 * @param actions la liste des option menu
 	 */
-	public Menu(Map<Integer,OptionMenu> actions) {
-		this.titre = "***** Pizzeria Administration *****";
+	public Menu(String titre, Map<Integer,OptionMenu> actions) {
+		this.titre = titre;
 		this.actions = actions;
+		cmp++;
 	}
 	
 	/**
 	 * Contructeur avec valeur par default
 	 */
 	public Menu() {
-		this.titre = "***** Pizzeria Administration *****";
-		this.actions = new LinkedHashMap<Integer,OptionMenu>();
+		this("***** Pizzeria Administration *****", new LinkedHashMap<>());
 	}
 	
 	/**
@@ -43,8 +43,7 @@ public class Menu {
 	 * @param titre le titre du menu
 	 */
 	public Menu(String titre) {
-		this.titre = titre;
-		this.actions = new LinkedHashMap<Integer,OptionMenu>();
+		this(titre, new LinkedHashMap<>());
 	}
 
 	/**
@@ -83,7 +82,6 @@ public class Menu {
 			this.getActions().put(99, action);
 		}
 		else {
-			cmp++;
 			this.getActions().put(cmp, action);
 		}
 	}

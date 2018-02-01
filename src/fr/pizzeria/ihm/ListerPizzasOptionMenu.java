@@ -28,7 +28,8 @@ public class ListerPizzasOptionMenu extends OptionMenu {
 		CONSOLE.info("Liste des pizzas : \n");
 		List<Pizza> p = this.pizzaDaoImpl.findAllPizzas();
 		for(int i = 0; i < p.size(); i++) {
-			CONSOLE.info(p.get(i).toString());
+			String s = p.get(i).toString();
+			CONSOLE.info(s);
 		}
 		return true;
 	}

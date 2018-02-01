@@ -1,9 +1,13 @@
 package fr.pizzeria.ihm;
 
 import static fr.pizzeria.console.PizzeriaAdminConsoleApp.CONSOLE;
-import java.util.Scanner;
-import fr.pizzeria.dao.PizzaDaoJdbc;
 import static fr.pizzeria.dao.PizzaDaoJdbc.closeConnection;
+import static fr.pizzeria.dao.PizzaDaoJpa.closeEntityManagerFactory;
+
+import java.util.Scanner;
+
+import fr.pizzeria.dao.PizzaDaoJdbc;
+import fr.pizzeria.dao.PizzaDaoJpa;
 
 /**
  * @author Simon SUDRE
@@ -26,6 +30,9 @@ public class OutAppOptionMenu extends OptionMenu {
 		CONSOLE.info("Aurevoir \n");
 		if(this.pizzaDaoImpl instanceof PizzaDaoJdbc) {
 			closeConnection();
+		}
+		if(this.pizzaDaoImpl instanceof PizzaDaoJpa) {
+			closeEntityManagerFactory();
 		}
 		System.exit(0);
 		return false;
