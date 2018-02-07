@@ -1,10 +1,13 @@
 package fr.pizzeria.model;
 
 import static fr.pizzeria.utils.StringUtils.getStringValue;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+
 import fr.pizzeria.utils.ToString;
 
 /**
@@ -34,7 +37,8 @@ public class Pizza {
 	private Double prix;
 	
 	/** categorie : CategoriePizza */
-	@OneToOne
+	@Column
+	@Enumerated(EnumType.STRING)
 	@ToString(categorie = true)
 	private CategoriePizza categorie;
 	
